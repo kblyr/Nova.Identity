@@ -7,5 +7,5 @@ record UserRole
     public int RoleId { get; init; }
     
     public User User { get; init; } = default!;
-    public Boundary Boundary { get; init; } = default!;
+    public Role Role { get; init; } = default!;
 }
