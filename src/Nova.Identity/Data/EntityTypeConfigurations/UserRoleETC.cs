@@ -13,5 +13,13 @@ sealed class UserRoleETC : IEntityTypeConfiguration<UserRole>
             .AsSoftDeletable()
             .HasInsertFootprint()
             .HasDeleteFootprint();
+
+        builder.HasOne(_ => _.User)
+            .WithMany()
+            .HasForeignKey(_ => _.UserId);
+
+        builder.HasOne(_ => _.Role)
+            .WithMany()
+            .HasForeignKey(_ => _.RoleId);
     }
 }

@@ -13,5 +13,13 @@ sealed class UserBoundaryETC : IEntityTypeConfiguration<UserBoundary>
             .AsSoftDeletable()
             .HasInsertFootprint()
             .HasDeleteFootprint();
+
+        builder.HasOne(_ => _.User)
+            .WithMany()
+            .HasForeignKey(_ => _.UserId);
+
+        builder.HasOne(_ => _.Boundary)
+            .WithMany()
+            .HasForeignKey(_ => _.BoundaryId);
     }
 }

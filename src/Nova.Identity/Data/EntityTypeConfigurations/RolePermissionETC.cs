@@ -13,5 +13,13 @@ sealed class RolePermissionETC : IEntityTypeConfiguration<RolePermission>
             .AsSoftDeletable()
             .HasInsertFootprint()
             .HasDeleteFootprint();
+
+        builder.HasOne(_ => _.Role)
+            .WithMany()
+            .HasForeignKey(_ => _.RoleId);
+
+        builder.HasOne(_ => _.Permission)
+            .WithMany()
+            .HasForeignKey(_ => _.PermissionId);
     }
 }
