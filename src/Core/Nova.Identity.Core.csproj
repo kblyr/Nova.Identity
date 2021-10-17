@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="CodeCompanion.Exceptions" Version="1.0.5" />
-    <PackageReference Include="CodeCompanion.FluentEnumerable" Version="1.0.0" />
+    <PackageReference Include="CodeCompanion.FluentEnumerable" Version="1.0.1" />
+    <PackageReference Include="CodeCompanion.Processes" Version="1.0.3" />
     <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 
