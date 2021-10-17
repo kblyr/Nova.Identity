@@ -13,8 +13,16 @@ namespace Nova.Identity.Processes
         {
             if (processContext is IdentityDbContext context)
             {
-                if (await NameExistsAsync(context, clientApp.Name, clientApp.BoundaryId, cancellationToken))
-                    throw new ClientAppNameAlreadyExistsException { Name = clientApp.Name };
+                if (await NameExistsAsync(context, clientApp.Name, clientApp.Boundary?.Id, cancellationToken))
+                    throw new ClientAppNameAlreadyExistsException
+                    { 
+                        Name = clientApp.Name,
+                        Boundary = clientApp.Boundary is null ? null : new()
+                        {
+                            Id = clientApp.Boundary.Id,
+                            Name = clientApp.Boundary.Name
+                        }
+                    };
 
                 if (clientApp.LookupKey is not null && await LookupKeyExistsAsync(context, clientApp.LookupKey, cancellationToken))
                     throw new ClientAppLookupKeyAlreadyExistsException { LookupKey = clientApp.LookupKey };
