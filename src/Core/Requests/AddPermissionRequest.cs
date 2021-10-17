@@ -7,5 +7,6 @@ namespace Nova.Identity.Requests
     {
         public string Name { get; init; } = "";
         public string? LookupKey { get; init; }
+        public short? BoundaryId { get; init; }
     }
 }
