@@ -9,8 +9,8 @@ namespace Nova.Identity.Handlers
 {
     sealed class AddPermissionHandler : IRequestHandler<AddPermissionRequest, AddPermissionResponse>
     {
-        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
-        private readonly InsertPermission _insertPermission;
+        readonly IDbContextFactory<IdentityDbContext> _contextFactory;
+        readonly InsertPermission _insertPermission;
 
         public AddPermissionHandler(IDbContextFactory<IdentityDbContext> contextFactory, InsertPermission insertPermission)
         {

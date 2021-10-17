@@ -11,12 +11,12 @@ namespace Nova.Identity.Handlers
 {
     sealed class AddBoundaryHandler : IRequestHandler<AddBoundaryRequest, AddBoundaryResponse>
     {
-        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
-        private readonly InsertBoundary _insertBoundary;
-        private readonly InsertClientApp _insertClientApp;
-        private readonly InsertRole _insertRole;
-        private readonly InsertPermission  _insertPermission;
-        private readonly InsertRolePermission _insertRolePermission;
+        readonly IDbContextFactory<IdentityDbContext> _contextFactory;
+        readonly InsertBoundary _insertBoundary;
+        readonly InsertClientApp _insertClientApp;
+        readonly InsertRole _insertRole;
+        readonly InsertPermission  _insertPermission;
+        readonly InsertRolePermission _insertRolePermission;
 
         public AddBoundaryHandler(IDbContextFactory<IdentityDbContext> contextFactory, InsertBoundary insertBoundary, InsertClientApp insertClientApp, InsertRole insertRole, InsertPermission insertPermission, InsertRolePermission insertRolePermission)
         {
@@ -77,7 +77,7 @@ namespace Nova.Identity.Handlers
             };
         }
 
-        private async Task<IEnumerable<ClientApp>> InsertClientAppsAsync(IdentityDbContext context, Boundary boundary, IEnumerable<AddBoundaryRequest.ClientAppObj> requestClientApps, CancellationToken cancellationToken)
+        async Task<IEnumerable<ClientApp>> InsertClientAppsAsync(IdentityDbContext context, Boundary boundary, IEnumerable<AddBoundaryRequest.ClientAppObj> requestClientApps, CancellationToken cancellationToken)
         {
             var clientApps = new List<ClientApp>();
 
@@ -101,7 +101,7 @@ namespace Nova.Identity.Handlers
             return clientApps;
         }
 
-        private async Task<(IEnumerable<Role> Roles, IDictionary<Role, IEnumerable<int>> RolesWithPermissionTempIds)> InsertRolesAsync(IdentityDbContext context, Boundary boundary, IEnumerable<AddBoundaryRequest.RoleObj> requestRoles, CancellationToken cancellationToken)
+        async Task<(IEnumerable<Role> Roles, IDictionary<Role, IEnumerable<int>> RolesWithPermissionTempIds)> InsertRolesAsync(IdentityDbContext context, Boundary boundary, IEnumerable<AddBoundaryRequest.RoleObj> requestRoles, CancellationToken cancellationToken)
         {
             var roles = new List<Role>();
             var rolesWithPermissionTempIds = new Dictionary<Role, IEnumerable<int>>();
@@ -126,7 +126,7 @@ namespace Nova.Identity.Handlers
             return (roles, rolesWithPermissionTempIds);
         }
 
-        private async Task<(IEnumerable<Permission> Permissions, IDictionary<int, Permission> TempPermissions)> InsertPermissionsAsync(IdentityDbContext context, Boundary boundary, IEnumerable<AddBoundaryRequest.PermissionObj> requestPermissions, CancellationToken cancellationToken)
+        async Task<(IEnumerable<Permission> Permissions, IDictionary<int, Permission> TempPermissions)> InsertPermissionsAsync(IdentityDbContext context, Boundary boundary, IEnumerable<AddBoundaryRequest.PermissionObj> requestPermissions, CancellationToken cancellationToken)
         {
             var permissions = new List<Permission>();
             var tempPermissions = new Dictionary<int, Permission>(); 
@@ -152,7 +152,7 @@ namespace Nova.Identity.Handlers
             return (permissions, tempPermissions);
         }
 
-        private async Task InsertRolePermissionsAsync(IdentityDbContext context, IDictionary<Role, IEnumerable<int>> rolesWithPermissionTempIds, IDictionary<int, Permission> tempPermissions, CancellationToken cancellationToken)
+        async Task InsertRolePermissionsAsync(IdentityDbContext context, IDictionary<Role, IEnumerable<int>> rolesWithPermissionTempIds, IDictionary<int, Permission> tempPermissions, CancellationToken cancellationToken)
         {
             foreach (var roleWithPermissionTempIds in rolesWithPermissionTempIds)
             {

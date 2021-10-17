@@ -9,8 +9,8 @@ namespace Nova.Identity.Handlers
 {
     sealed class AddClientAppHandler : IRequestHandler<AddClientAppRequest, AddClientAppResponse>
     {
-        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
-        private readonly InsertClientApp _insertClientApp;
+        readonly IDbContextFactory<IdentityDbContext> _contextFactory;
+        readonly InsertClientApp _insertClientApp;
 
         public AddClientAppHandler(IDbContextFactory<IdentityDbContext> contextFactory, InsertClientApp insertClientApp)
         {

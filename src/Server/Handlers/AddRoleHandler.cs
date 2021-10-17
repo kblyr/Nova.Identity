@@ -12,9 +12,9 @@ namespace Nova.Identity.Handlers
 {
     sealed class AddRoleHandler : IRequestHandler<AddRoleRequest, AddRoleResponse>
     {
-        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
-        private readonly InsertRole _insertRole;
-        private readonly InsertRolePermission _insertRolePermission;
+        readonly IDbContextFactory<IdentityDbContext> _contextFactory;
+        readonly InsertRole _insertRole;
+        readonly InsertRolePermission _insertRolePermission;
 
         public AddRoleHandler(IDbContextFactory<IdentityDbContext> contextFactory, InsertRole insertRole, InsertRolePermission insertRolePermission)
         {
@@ -62,7 +62,7 @@ namespace Nova.Identity.Handlers
             };
         }
 
-        private async Task<IEnumerable<Permission>> InsertRolePermissionsAsync(IdentityDbContext context, Role role, IEnumerable<int> requestPermissionIds, CancellationToken cancellationToken)
+        async Task<IEnumerable<Permission>> InsertRolePermissionsAsync(IdentityDbContext context, Role role, IEnumerable<int> requestPermissionIds, CancellationToken cancellationToken)
         {
             var permissions = new List<Permission>();
 
