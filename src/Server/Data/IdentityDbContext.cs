@@ -12,6 +12,7 @@ namespace Nova.Identity.Data
 
         public DbSet<Boundary> Boundaries => Set<Boundary>();
         public DbSet<ClientApp> ClientApps => Set<ClientApp>();
+        public DbSet<ClientDevice> ClientDevices => Set<ClientDevice>();
         public DbSet<Permission> Permissions => Set<Permission>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<RolePermission> RolePermissions => Set<RolePermission>();

@@ -8,6 +8,7 @@ namespace Nova.Identity
         {
             public const string Boundary = "Boundary";
             public const string ClientApp = "ClientApp";
+            public const string ClientDevice = "ClientDevice";
             public const string Permission = "Permission";
             public const string Role = "Role";
             public const string RolePermission = "RolePermission";

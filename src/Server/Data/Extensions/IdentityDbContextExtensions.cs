@@ -20,6 +20,13 @@ namespace Nova.Identity.Data
             return await context.ClientApps.FindByIdAsync(id, cancellationToken) ?? throw new ClientAppNotFoundException { Id = id };
         }
 
+        public static async Task<ClientDevice?> GetClientDeviceAsync(this IdentityDbContext context, long id, CancellationToken cancellationToken = default)
+        {
+            if (id == 0) return null;
+
+            return await context.ClientDevices.FindByIdAsync(id, cancellationToken) ?? throw new ClientDeviceNotFoundException { Id = id };
+        }
+
         public static async Task<Permission?> GetPermissionAsync(this IdentityDbContext context, int id, CancellationToken cancellationToken = default)
         {
             if (id == 0) return null;
