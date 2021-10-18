@@ -78,6 +78,18 @@ namespace Nova.Identity.Handlers
                     Id = clientApp.Id,
                     Name = clientApp.Name,
                     LookupKey = clientApp.LookupKey
+                }),
+                Roles = roles.Select(role => new EditBoundaryResponse.RoleObj
+                {
+                    Id = role.Id,
+                    Name = role.Name,
+                    LookupKey = role.LookupKey
+                }),
+                Permissions = permissions.Select(permission => new EditBoundaryResponse.PermissionObj
+                {
+                    Id = permission.Id,
+                    Name = permission.Name,
+                    LookupKey = permission.LookupKey
                 })
             };
         }
