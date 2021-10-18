@@ -35,7 +35,7 @@ namespace Nova.Identity.Processes
             throw InvalidProcessContextException.Expects<IdentityDbContext>();
         }
 
-        static async Task<bool> NameExistsAsync(IdentityDbContext context, string name, int? boundaryId, CancellationToken cancellationToken) => await context.Permissions
+        static async Task<bool> NameExistsAsync(IdentityDbContext context, string name, short? boundaryId, CancellationToken cancellationToken) => await context.Permissions
             .Where(permission => permission.Name == name)
             .Where(permission => permission.BoundaryId == boundaryId)
             .AnyAsync(cancellationToken);
