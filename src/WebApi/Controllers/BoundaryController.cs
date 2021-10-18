@@ -5,7 +5,7 @@ using Nova.Identity.Responses;
 
 namespace Nova.Identity.Controllers
 {
-    [ApiController, Route("[controller]")]
+    [ApiController, Route(ControllerRoutes.Boundary)]
     public sealed class BoundaryController : ControllerBase
     {
         readonly IMediator _mediator;
@@ -15,7 +15,10 @@ namespace Nova.Identity.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("add")]
+        [HttpPost(ActionRoutes.Boundary.Add)]
         public async Task<ActionResult<AddBoundaryResponse>> Add([FromBody] AddBoundaryRequest request, CancellationToken cancellationToken) => await _mediator.Send(request, cancellationToken);
+
+        [HttpPost(ActionRoutes.Boundary.Edit)]
+        public async Task<ActionResult<EditBoundaryResponse>> Edit([FromBody] EditBoundaryRequest request, CancellationToken cancellationToken) => await _mediator.Send(request, cancellationToken);
     }
 }
