@@ -24,6 +24,9 @@ namespace Nova.Identity.Processes
                         }
                     };
 
+                if (role.LookupKey is not null && await LookupKeyExistsAsync(context, role.LookupKey, cancellationToken))
+                    throw new RoleLookupKeyAlreadyExistsException { LookupKey = role.LookupKey };
+
                 context.Roles.Add(role, context.CurrentFootprint);
                 await context.TrySaveChangesAsync(cancellationToken);
                 return role;
@@ -33,13 +36,13 @@ namespace Nova.Identity.Processes
         }
 
         static async Task<bool> NameExistsAsync(IdentityDbContext context, string name, int? boundaryId, CancellationToken cancellationToken) => await context.Roles
-            .Where(clientApp => clientApp.Name == name)
-            .Where(clientApp => clientApp.BoundaryId == boundaryId)
+            .Where(role => role.Name == name)
+            .Where(role => role.BoundaryId == boundaryId)
             .AnyAsync(cancellationToken);
 
         static async Task<bool> LookupKeyExistsAsync(IdentityDbContext context, string lookupKey, CancellationToken cancellationToken) => await context.Roles
             .IgnoreQueryFilters()
-            .Where(clientApp => clientApp.LookupKey == lookupKey)
+            .Where(role => role.LookupKey == lookupKey)
             .AnyAsync(cancellationToken);
     }
 }

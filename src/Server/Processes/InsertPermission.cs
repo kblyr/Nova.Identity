@@ -10,7 +10,8 @@ namespace Nova.Identity.Processes
     sealed class InsertPermission : IAsyncProcess<Permission, Permission>
     {
         public async Task<Permission> ExecuteAsync(IProcessContext processContext, Permission permission, CancellationToken cancellationToken = default)
-        {if (processContext is IdentityDbContext context)
+        {
+            if (processContext is IdentityDbContext context)
             {
                 if (await NameExistsAsync(context, permission.Name, permission.Boundary?.Id, cancellationToken))
                     throw new PermissionNameAlreadyExistsException
@@ -23,6 +24,9 @@ namespace Nova.Identity.Processes
                         }
                     };
 
+                if (permission.LookupKey is not null && await LookupKeyExistsAsync(context, permission.LookupKey, cancellationToken))
+                    throw new PermissionLookupKeyAlreadyExistsException { LookupKey = permission.LookupKey };
+
                 context.Permissions.Add(permission, context.CurrentFootprint);
                 await context.TrySaveChangesAsync(cancellationToken);
                 return permission;
@@ -32,13 +36,13 @@ namespace Nova.Identity.Processes
         }
 
         static async Task<bool> NameExistsAsync(IdentityDbContext context, string name, int? boundaryId, CancellationToken cancellationToken) => await context.Permissions
-            .Where(clientApp => clientApp.Name == name)
-            .Where(clientApp => clientApp.BoundaryId == boundaryId)
+            .Where(permission => permission.Name == name)
+            .Where(permission => permission.BoundaryId == boundaryId)
             .AnyAsync(cancellationToken);
 
         static async Task<bool> LookupKeyExistsAsync(IdentityDbContext context, string lookupKey, CancellationToken cancellationToken) => await context.Permissions
             .IgnoreQueryFilters()
-            .Where(clientApp => clientApp.LookupKey == lookupKey)
+            .Where(permission => permission.LookupKey == lookupKey)
             .AnyAsync(cancellationToken);
     }
 }
