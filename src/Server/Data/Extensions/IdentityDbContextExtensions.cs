@@ -1,4 +1,5 @@
 using CodeCompanion.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Nova.Identity.Entities;
 using Nova.Identity.Exceptions;
 
@@ -39,6 +40,29 @@ namespace Nova.Identity.Data
             if (id == 0) return null;
 
             return await context.Roles.FindByIdAsync(id, cancellationToken) ?? throw new RoleNotFoundException { Id = id };
+        }
+
+        public static async Task<RolePermission?> GetRolePermissionAsync(this IdentityDbContext context, Role role, Permission permission, CancellationToken cancellationToken = default)
+        {
+            if (role.Id == 0 || permission.Id == 0) return null;
+
+            return await context.RolePermissions
+                .Where(rolePermission => rolePermission.RoleId == role.Id)
+                .Where(rolePermission => rolePermission.PermissionId == permission.Id)
+                .SingleOrDefaultAsync(cancellationToken) ??
+                throw new RolePermissionNotFoundException
+                {
+                    Role = new()
+                    {
+                        Id = role.Id,
+                        Name = role.Name
+                    },
+                    Permission = new()
+                    {
+                        Id = permission.Id,
+                        Name = permission.Name
+                    }
+                };
         }
 
         public static async Task<User?> GetUserAsync(this IdentityDbContext context, int id, CancellationToken cancellationToken = default)
