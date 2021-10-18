@@ -14,6 +14,7 @@ namespace Nova.Identity
             public const string RolePermission = "RolePermission";
             public const string User = "User";
             public const string UserClientApp = "UserClientApp";
+            public const string UserClientDevice = "UserClientDevice";
             public const string UserRole = "UserRole";
         }
     }
