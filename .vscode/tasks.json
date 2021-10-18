@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "BuildWebApi",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "build",
+                "src/WebApi"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
