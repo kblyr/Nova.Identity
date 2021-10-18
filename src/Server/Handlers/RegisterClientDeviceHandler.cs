@@ -10,9 +10,9 @@ namespace Nova.Identity.Handlers
 {
     sealed class RegisterClientDeviceHandler : IRequestHandler<RegisterClientDeviceRequest, RegisterClientDeviceResponse>
     {
-        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
-        private readonly InsertClientDevice _insertClientDevice;
-        private readonly UpdateClientDevice _updateClientDevice;
+        readonly IDbContextFactory<IdentityDbContext> _contextFactory;
+        readonly InsertClientDevice _insertClientDevice;
+        readonly UpdateClientDevice _updateClientDevice;
 
         public RegisterClientDeviceHandler(IDbContextFactory<IdentityDbContext> contextFactory, InsertClientDevice insertClientDevice, UpdateClientDevice updateClientDevice)
         {
