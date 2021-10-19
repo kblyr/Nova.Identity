@@ -1,8 +1,13 @@
-using Microsoft.OpenApi.Models;
+using CodeCompanion.EntityFrameworkCore;
+using Nova.Identity;
+using Nova.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddNovaIdentity()
+    .AddData(builder.Configuration.GetConnectionString("NovaIdentity"));
+
+builder.Services.AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
@@ -20,6 +25,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nova.Identity.WebApi v1"));
 }
 
+app.UseCors(policy => {
+    policy.AllowAnyHeader();
+    policy.AllowAnyOrigin();
+    policy.AllowAnyMethod();
+});
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
