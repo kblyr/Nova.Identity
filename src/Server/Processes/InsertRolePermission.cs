@@ -1,3 +1,4 @@
+using CodeCompanion.EntityFrameworkCore;
 using CodeCompanion.Processes;
 using Microsoft.EntityFrameworkCore;
 using Nova.Identity.Data;
@@ -27,7 +28,7 @@ namespace Nova.Identity.Processes
                         }
                     };
 
-                context.RolePermissions.Add(rolePermission);
+                context.RolePermissions.Add(rolePermission, context.CurrentFootprint);
                 await context.TrySaveChangesAsync(cancellationToken);
                 return rolePermission;
             }
