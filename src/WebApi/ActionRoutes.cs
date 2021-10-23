@@ -13,5 +13,11 @@ namespace Nova.Identity
             public const string Add = "add";
             public const string Edit = "edit";
         }
+
+        public static class Role
+        {
+            public const string Add = "add";
+            public const string Edit = "edit";
+        }
     }
 }
