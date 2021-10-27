@@ -3,7 +3,6 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Nova.Identity.DependencyInjection;
-using Nova.Identity.Validators;
 
 namespace Nova.Identity
 {
@@ -14,8 +13,7 @@ namespace Nova.Identity
             services
                 .AddMediatR(CoreAssemblyMarker.Assembly, ServerAssemblyMarker.Assembly)
                 .AddProcessImplementations(ServerAssemblyMarker.Assembly)
-                .AddValidatorsFromAssembly(CoreAssemblyMarker.Assembly)
-                .AddValidationProcessor();
+                .AddValidatorsFromAssembly(CoreAssemblyMarker.Assembly);
             return new(services);
         }
     }
