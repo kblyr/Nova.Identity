@@ -69,5 +69,12 @@ namespace Nova.Identity
                 .WithErrorCode(nameof(Distinct))
                 .WithMessage("'{PropertyName}' contains duplicate values");
         }
+
+        public static IRuleBuilderOptions<T, IEnumerable<TProperty>> Distinct<T, TProperty>(this IRuleBuilder<T, IEnumerable<TProperty>> builder, IEqualityComparer<TProperty> equalityComparer)
+        {
+            return builder.Must(value => value is null || value.Count() == value.Distinct(equalityComparer).Count())
+                .WithMessage(nameof(Distinct))
+                .WithMessage("'{PropertyName}' contains duplicate values");
+        }
     }
 }
