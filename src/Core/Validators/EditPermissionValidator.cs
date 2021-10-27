@@ -6,13 +6,14 @@ using Nova.Identity.Requests;
 
 namespace Nova.Identity.Validators
 {
-    public sealed class AddPermissionValidator : AbstractValidator<AddPermissionRequest>
+    public sealed class EditPermissionValidator : AbstractValidator<EditPermissionRequest>
     {
-        public AddPermissionValidator(IConfiguration configuration, IOptions<PermissionOptions> permissionOptions)
+        public EditPermissionValidator(IConfiguration configuration, IOptions<PermissionOptions> permissionOptions)
         {
             CascadeMode = configuration.ValidationCascadeMode();
             var permissionOpts = permissionOptions.Value;
 
+            RuleFor(request => request.Id).NotEqual(0);
             RuleFor(request => request.Name).FromOptions(permissionOpts.Name);
             RuleFor(request => request.LookupKey).FromOptions(permissionOpts.LookupKey);
             RuleFor(request => request.BoundaryId).NotEqual((short)0);

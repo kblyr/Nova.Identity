@@ -6,13 +6,14 @@ using Nova.Identity.Requests;
 
 namespace Nova.Identity.Validators
 {
-    public sealed class AddClientAppValidator : AbstractValidator<AddClientAppRequest>
+    public sealed class EditClientAppValidator : AbstractValidator<EditClientAppRequest>
     {
-        public AddClientAppValidator(IConfiguration configuration, IOptions<ClientAppOptions> clientAppOptions)
+        public EditClientAppValidator(IConfiguration configuration, IOptions<ClientAppOptions> clientAppOptions)
         {
             CascadeMode = configuration.ValidationCascadeMode();
             var clientAppOpts = clientAppOptions.Value;
 
+            RuleFor(request => request.Id).NotEqual((short)0);
             RuleFor(request => request.Name).FromOptions(clientAppOpts.Name);
             RuleFor(request => request.LookupKey).FromOptions(clientAppOpts.LookupKey);
             RuleFor(request => request.BoundaryId).NotEqual((short)0);
