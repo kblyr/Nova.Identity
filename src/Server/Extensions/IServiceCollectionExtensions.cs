@@ -14,7 +14,7 @@ namespace Nova.Identity
             services
                 .AddMediatR(CoreAssemblyMarker.Assembly, ServerAssemblyMarker.Assembly)
                 .AddProcessImplementations(ServerAssemblyMarker.Assembly)
-                .AddValidatorsFromAssembly(ServerAssemblyMarker.Assembly)
+                .AddValidatorsFromAssembly(CoreAssemblyMarker.Assembly)
                 .AddValidationProcessor();
             return new(services);
         }
