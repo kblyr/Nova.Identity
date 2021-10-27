@@ -48,7 +48,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "Nova.Identity.WebApi", Version = "v1" });
-    c.CustomSchemaIds(type => type.FullName);
+    c.CustomSchemaIds(type => type.FullName?.Replace($"{type.Namespace}.", ""));
 });
 
 var app = builder.Build();

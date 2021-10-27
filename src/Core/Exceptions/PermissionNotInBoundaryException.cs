@@ -8,7 +8,7 @@ namespace Nova.Identity.Exceptions
     public class PermissionNotInBoundaryException : CodeCompanionException
     {
         public PermissionObj Permission { get; init; } = default!;
-        public BoundaryObj Boundary { get; init; } = default!;
+        public BoundaryObj? Boundary { get; init; }
 
         public PermissionNotInBoundaryException()
         {
@@ -26,7 +26,12 @@ namespace Nova.Identity.Exceptions
         {
         }
 
-        protected override void SetClientMessage(StringBuilder builder) => builder.Append($"Permission '{Permission.Name}' is not in boundary '{Boundary.Name}'");
+        protected override void SetClientMessage(StringBuilder builder) => builder.Append
+        (
+            Boundary is null 
+            ? $"Permission '{Permission.Name}' is not a global permission"
+            : $"Permission '{Permission.Name}' is not in boundary '{Boundary.Name}'"
+        );
 
         protected override void SetErrorData(IDictionary<string, object?> errorData) => errorData
             .FluentAdd(nameof(Permission), Permission)

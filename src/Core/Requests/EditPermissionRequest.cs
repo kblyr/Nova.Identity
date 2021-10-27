@@ -1,0 +1,13 @@
+using MediatR;
+using Nova.Identity.Responses;
+
+namespace Nova.Identity.Requests
+{
+    public record EditPermissionRequest : IRequest<EditPermissionResponse>
+    {
+        public int Id { get; init; }
+        public string Name { get; init; } = "";
+        public string? LookupKey { get; init; }
+        public short? BoundaryId { get; init; }
+    }
+}

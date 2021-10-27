@@ -4,14 +4,20 @@ namespace Nova.Identity
     {
         public static class Boundary
         {
-            public const string Add = "add";
-            public const string Edit = "edit";
+            public const string Add = "";
+            public const string Edit = "{id}";
         }
 
         public static class ClientApp
         {
-            public const string Add = "add";
-            public const string Edit = "edit";
+            public const string Add = "";
+            public const string Edit = "{id}";
+        }
+
+        public static class Role
+        {
+            public const string Add = "";
+            public const string Edit = "{id}";
         }
     }
 }
