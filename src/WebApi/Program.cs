@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nova.Identity;
 using Nova.Identity.Data;
 using Nova.Identity.Options;
+using Nova.Identity.Schema;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +49,15 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "Nova.Identity.WebApi", Version = "v1" });
-    c.CustomSchemaIds(type => type.FullName?.Replace($"{type.Namespace}.", ""));
+    c.CustomSchemaIds(type => {
+
+        var customAttribs = type.GetCustomAttributes(typeof(SchemaIdAttribute), false);
+
+        if (customAttribs.Any() && customAttribs[0] is SchemaIdAttribute schemaId)
+            return schemaId.SchemaId;
+        
+        return type.Name;
+    });
 });
 
 var app = builder.Build();
