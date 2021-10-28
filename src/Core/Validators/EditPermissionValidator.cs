@@ -1,3 +1,4 @@
+using CodeCompanion.Extensions.FluentValidation;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;

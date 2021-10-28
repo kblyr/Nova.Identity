@@ -1,3 +1,5 @@
+using CodeCompanion.Constraints;
+
 namespace Nova.Identity.Options
 {
     public record BoundaryOptions
