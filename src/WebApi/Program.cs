@@ -9,7 +9,6 @@ using Nova.Common.Validators;
 using Nova.Identity;
 using Nova.Identity.Data;
 using Nova.Identity.Options;
-using Nova.Identity.Schema;
 
 var builder = WebApplication.CreateBuilder(args);
 
