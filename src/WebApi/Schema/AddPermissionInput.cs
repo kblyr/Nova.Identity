@@ -1,3 +1,4 @@
+using Nova.Common.Schema;
 using Nova.Identity.Requests;
 
 namespace Nova.Identity.Schema

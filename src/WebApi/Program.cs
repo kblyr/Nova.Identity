@@ -4,6 +4,8 @@ using CodeCompanion.Extensions.AspNetCore;
 using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
+using Nova.Common;
+using Nova.Common.Validators;
 using Nova.Identity;
 using Nova.Identity.Data;
 using Nova.Identity.Options;
@@ -13,6 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddNovaIdentity()
     .AddData(builder.Configuration.GetConnectionString("NovaIdentity"));
+
+builder.Services
+    .AddRequestValidationProcessor()
+    .AddRequestAccessValidationProcessor();
 
 builder.Services.AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>();
 
@@ -49,15 +55,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "Nova.Identity.WebApi", Version = "v1" });
-    c.CustomSchemaIds(type => {
-
-        var customAttribs = type.GetCustomAttributes(typeof(SchemaIdAttribute), false);
-
-        if (customAttribs.Any() && customAttribs[0] is SchemaIdAttribute schemaId)
-            return schemaId.SchemaId;
-        
-        return type.Name;
-    });
+    c.UseNovaSchemaIds();
 });
 
 var app = builder.Build();
