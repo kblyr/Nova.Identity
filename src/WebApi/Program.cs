@@ -5,19 +5,19 @@ using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Nova.Common;
-using Nova.Common.Validators;
+using Nova.Common.Security.AccessValidation.Exceptions;
 using Nova.Identity;
 using Nova.Identity.Data;
 using Nova.Identity.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddNovaCommon()
+    .WithDefaults()
+    .WithDefaultsForWebApi();
+
 builder.Services.AddNovaIdentity()
     .AddData(builder.Configuration.GetConnectionString("NovaIdentity"));
-
-builder.Services
-    .AddRequestValidationProcessor()
-    .AddRequestAccessValidationProcessor();
 
 builder.Services.AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>();
 
@@ -29,14 +29,14 @@ builder.Services
 
 builder.Services.AddProblemDetails(options => {
     options.IncludeExceptionDetails = (context, exception) => false;
-    options.Map<CodeCompanionException>(exception => new ProblemDetails()
+    options.Map<CodeCompanionException>(exception => new ProblemDetails
     {
         Title = "Invalid Request",
         Detail = exception.ClientMessage,
         Status = StatusCodes.Status400BadRequest
     }.AddExtension("errorData", exception.ErrorData));
 
-    options.Map<ValidationException>(exception => new ProblemDetails()
+    options.Map<ValidationException>(exception => new ProblemDetails
     {
         Title = "Validation Failed",
         Detail = exception.Message,
@@ -47,6 +47,18 @@ builder.Services.AddProblemDetails(options => {
             propertyName = error.PropertyName,
             errorCode = error.ErrorCode,
             errorMessage = error.ErrorMessage
+        })));
+
+    options.Map<AccessValidationFailedException>(exception => new ProblemDetails()
+    {
+        Title = "Access Denied",
+        Detail = "Accessing protected resource",
+        Status = StatusCodes.Status403Forbidden
+    }.AddExtension("validationErrors", 
+        exception.FailedRules.Select(rule => new
+        {
+            ruleName = rule.RuleName,
+            payload = rule.GetPayload()
         })));
 });
 

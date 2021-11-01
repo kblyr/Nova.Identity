@@ -2,6 +2,7 @@ using CodeCompanion.Processes;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Nova.Common.Security.AccessValidation;
 using Nova.Identity.DependencyInjection;
 
 namespace Nova.Identity
@@ -12,8 +13,9 @@ namespace Nova.Identity
         {
             services
                 .AddMediatR(CoreAssemblyMarker.Assembly, ServerAssemblyMarker.Assembly)
-                .AddProcessImplementations(ServerAssemblyMarker.Assembly)
-                .AddValidatorsFromAssembly(CoreAssemblyMarker.Assembly);
+                .AddProcesses(ServerAssemblyMarker.Assembly)
+                .AddValidatorsFromAssembly(CoreAssemblyMarker.Assembly)
+                .AddRequestAccessValidationConfigurations(CoreAssemblyMarker.Assembly);
             return new(services);
         }
     }
