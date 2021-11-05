@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="CodeCompanion.Extensions.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="CodeCompanion.Processes.DependencyInjection" Version="1.1.2" />
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.2.0" />
     <PackageReference Include="Nova.Common.Core" Version="0.2.8" />
     <PackageReference Include="Nova.Common.WebApi" Version="0.2.8" />
