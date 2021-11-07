@@ -16,10 +16,7 @@ using Nova.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddNovaCommon()
-    .WithDefaults(pipelineBehaviors => pipelineBehaviors
-        .AddRequestValidation()
-        .AddRequestAccessValidation()
-    )
+    .WithDefaults()
     .WithDefaultsForWebApi();
 
 builder.Services.AddNovaIdentity()
@@ -28,6 +25,10 @@ builder.Services.AddNovaIdentity()
 builder.Services
     .AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>()
     .AddHttpContextAccessor();
+
+builder.Services.WithPipelineBehaviors()
+    .AddRequestValidation()
+    .AddRequestAccessValidation();
 
 builder.Services
     .Configure<BoundaryOptions>(builder.Configuration.GetSection(BoundaryOptions.ConfigKey))
@@ -78,6 +79,9 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { Title = "Nova.Identity.WebApi", Version = "v1" });
     c.UseNovaSchemaIds();
 });
+
+builder.Services.AddAuthentication()
+    .AddJwtBearerWithNovaDefaults(builder.Configuration);
 
 var app = builder.Build();
 
