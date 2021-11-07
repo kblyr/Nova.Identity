@@ -2,7 +2,7 @@ using CodeCompanion.Extensions.FluentValidation;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Nova.Identity.Options;
+using Nova.Identity.Configuration;
 using Nova.Identity.Requests;
 
 namespace Nova.Identity.Validators

@@ -1,10 +1,10 @@
 using CodeCompanion.Constraints;
 
-namespace Nova.Identity.Options
+namespace Nova.Identity.Configuration
 {
-    public record PermissionOptions
+    public record RoleOptions
     {
-        public const string ConfigKey = "Permission";
+        public const string ConfigKey = "Role";
         public StringPropertyOptions Name { get; init; } = default!;
         public NullableStringPropertyOptions LookupKey { get; init; } = default!;
     }

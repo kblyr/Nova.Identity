@@ -1,6 +1,6 @@
 using CodeCompanion.Constraints;
 
-namespace Nova.Identity.Options
+namespace Nova.Identity.Configuration
 {
     public record ClientDeviceOptions
     {
