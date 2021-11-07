@@ -1,3 +1,4 @@
+using System.Text.Json;
 using CodeCompanion.EntityFrameworkCore;
 using CodeCompanion.Exceptions;
 using CodeCompanion.Extensions.AspNetCore;
@@ -5,21 +6,28 @@ using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Nova.Common;
+using Nova.Common.Security.AccessValidation;
 using Nova.Common.Security.AccessValidation.Exceptions;
+using Nova.Common.Validators;
 using Nova.Identity;
+using Nova.Identity.Configuration;
 using Nova.Identity.Data;
-using Nova.Identity.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddNovaCommon()
-    .WithDefaults()
+    .WithDefaults(pipelineBehaviors => pipelineBehaviors
+        .AddRequestValidation()
+        .AddRequestAccessValidation()
+    )
     .WithDefaultsForWebApi();
 
 builder.Services.AddNovaIdentity()
     .AddData(builder.Configuration.GetConnectionString("NovaIdentity"));
 
-builder.Services.AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>();
+builder.Services
+    .AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>()
+    .AddHttpContextAccessor();
 
 builder.Services
     .Configure<BoundaryOptions>(builder.Configuration.GetSection(BoundaryOptions.ConfigKey))
@@ -62,7 +70,9 @@ builder.Services.AddProblemDetails(options => {
         })));
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+});
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "Nova.Identity.WebApi", Version = "v1" });
