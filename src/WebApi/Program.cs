@@ -1,4 +1,5 @@
 using System.Text.Json;
+using CodeCompanion.Auditing;
 using CodeCompanion.Exceptions;
 using CodeCompanion.Extensions.AspNetCore;
 using FluentValidation;
@@ -26,7 +27,13 @@ builder.Services
 
 builder.Services.WithPipelineBehaviors()
     .AddRequestValidation()
-    .AddRequestAccessValidation();
+    // .AddRequestAccessValidation()
+    ;
+
+builder.Services
+    .AddCurrentFootprintProvider()
+    .AddCurrentTimestampProvider()
+    .AddCurrentUserIdProvider("Nova.User.Id");
 
 builder.Services
     .Configure<BoundaryOptions>(builder.Configuration.GetSection(BoundaryOptions.ConfigKey))

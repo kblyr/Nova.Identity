@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CodeCompanion.EntityFrameworkCore" Version="1.0.7" />
+    <PackageReference Include="CodeCompanion.EntityFrameworkCore" Version="1.1.0" />
     <PackageReference Include="CodeCompanion.Exceptions" Version="1.0.7" />
     <PackageReference Include="CodeCompanion.Processes" Version="1.1.0" />
     <PackageReference Include="CodeCompanion.Processes.DependencyInjection" Version="1.1.3" />
