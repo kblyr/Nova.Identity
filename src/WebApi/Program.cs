@@ -6,6 +6,7 @@ using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Nova.Common;
+using Nova.Common.Security;
 using Nova.Common.Security.AccessValidation;
 using Nova.Common.Security.AccessValidation.Exceptions;
 using Nova.Common.Validators;
@@ -27,13 +28,12 @@ builder.Services
 
 builder.Services.WithPipelineBehaviors()
     .AddRequestValidation()
-    // .AddRequestAccessValidation()
-    ;
+    .AddRequestAccessValidation();
 
 builder.Services
     .AddCurrentFootprintProvider()
     .AddCurrentTimestampProvider()
-    .AddCurrentUserIdProvider("Nova.User.Id");
+    .AddCurrentUserIdProvider(ClaimTypes.UserId);
 
 builder.Services
     .Configure<BoundaryOptions>(builder.Configuration.GetSection(BoundaryOptions.ConfigKey))
