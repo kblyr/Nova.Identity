@@ -1,5 +1,4 @@
 using System.Text.Json;
-using CodeCompanion.EntityFrameworkCore;
 using CodeCompanion.Exceptions;
 using CodeCompanion.Extensions.AspNetCore;
 using FluentValidation;
@@ -17,13 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddNovaCommon()
     .WithDefaults()
-    .WithDefaultsForWebApi();
+    .WithServerDefaults();
 
 builder.Services.AddNovaIdentity()
     .AddData(builder.Configuration.GetConnectionString("NovaIdentity"));
 
 builder.Services
-    .AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>()
     .AddHttpContextAccessor();
 
 builder.Services.WithPipelineBehaviors()
