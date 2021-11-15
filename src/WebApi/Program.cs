@@ -1,11 +1,12 @@
 using System.Text.Json;
-using CodeCompanion.EntityFrameworkCore;
+using CodeCompanion.Auditing;
 using CodeCompanion.Exceptions;
 using CodeCompanion.Extensions.AspNetCore;
 using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Nova.Common;
+using Nova.Common.Security;
 using Nova.Common.Security.AccessValidation;
 using Nova.Common.Security.AccessValidation.Exceptions;
 using Nova.Common.Validators;
@@ -17,18 +18,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddNovaCommon()
     .WithDefaults()
-    .WithDefaultsForWebApi();
+    .WithServerDefaults();
 
 builder.Services.AddNovaIdentity()
     .AddData(builder.Configuration.GetConnectionString("NovaIdentity"));
 
 builder.Services
-    .AddScoped<ICurrentFootprintProvider, CurrentFootprintProvider>()
     .AddHttpContextAccessor();
 
 builder.Services.WithPipelineBehaviors()
     .AddRequestValidation()
     .AddRequestAccessValidation();
+
+builder.Services
+    .AddCurrentFootprintProvider()
+    .AddCurrentTimestampProvider()
+    .AddCurrentUserIdProvider(ClaimTypes.UserId);
 
 builder.Services
     .Configure<BoundaryOptions>(builder.Configuration.GetSection(BoundaryOptions.ConfigKey))

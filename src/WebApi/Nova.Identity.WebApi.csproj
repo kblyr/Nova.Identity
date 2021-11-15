@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CodeCompanion.Auditing.AspNetCore" Version="0.1.0" />
     <PackageReference Include="CodeCompanion.Extensions.AspNetCore" Version="1.1.0" />
     <PackageReference Include="CodeCompanion.Processes.DependencyInjection" Version="1.1.3" />
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.2.0" />
-    <PackageReference Include="Nova.Common.Core" Version="0.2.12" />
-    <PackageReference Include="Nova.Common.WebApi" Version="0.2.12" />
+    <PackageReference Include="Nova.Common.Core" Version="0.3.0-beta" />
+    <PackageReference Include="Nova.Common.Server" Version="0.3.0-beta" />
+    <PackageReference Include="Nova.Common.WebApi" Version="0.3.0-beta" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
   </ItemGroup>
 
